@@ -54,7 +54,7 @@ body {
             Master of Data - De la donnée à la décision
         </p>
         <p class="mt-3 text-center text-slate-500">
-            Samedi 28 Juin 2025 · 20h00 GMT
+            A partir  du 20 Juin tous les samedis  · 10h00 GMT
         </p>
 
         <!-- Divider -->

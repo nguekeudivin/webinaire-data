@@ -31,7 +31,8 @@ class AdminManagementController extends Controller
         User::create([
             'name' => $request->input('email'),
             'email' => $request->input('email'),
-            'password' => $request->input('password'),
+            'password' => Hash::make($request->input('password')),
+            'receive_notification' => $request->boolean('receive_notification'),
         ]);
 
         return redirect()->route('admin.admins')->with('status', 'Administrateur créé.');

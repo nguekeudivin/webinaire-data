@@ -30,9 +30,9 @@
     </div>
 
     <div class="relative z-10 max-w-3xl bg-white rounded-4xl shadow-xl p-4 md:p-12 mx-auto">
-        @if (!empty($errors))
+        @if ($errors->any())
             <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
-                @foreach ($errors as $e)
+                @foreach ($errors->all() as $e)
                     {{ $e }}<br>
                 @endforeach
             </div>
@@ -134,7 +134,7 @@
                 </div>
 
                 <label class="flex gap-3 text-slate-700 mt-12 bg-green-50 p-4">
-                    <input type="checkbox" name="consentement" required class="accent-primary-600 mt-1 w-8 h-8" {{ old('consentement', $old['consentement'] ?? false) ? 'checked' : '' }}>
+                    <input type="checkbox" name="consentement" value="1" required class="accent-primary-600 mt-1 w-8 h-8" {{ old('consentement', $old['consentement'] ?? false) ? 'checked' : '' }}>
                     J'accepte de recevoir les ressources gratuites, les invitations aux webinaires et autres infos exclusives par email ou WhatsApp.
                 </label>
             </div>
@@ -175,7 +175,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        @if (!empty($errors))
+        @if ($errors->any())
             document.getElementById('wizardForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
         @endif
 

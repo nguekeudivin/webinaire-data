@@ -51,6 +51,10 @@
                             <input type="password" name="password" required
                                 class="w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition">
                         </div>
+                        <label class="flex items-center gap-3 text-slate-700">
+                            <input type="checkbox" name="receive_notification" value="1" class="accent-primary-600 w-5 h-5" {{ old('receive_notification') ? 'checked' : '' }}>
+                            Recevoir les notifications d'inscription
+                        </label>
                         <button type="submit" class="w-full px-4 py-2.5 rounded-full bg-primary-600 hover:bg-primary-700 text-white font-medium shadow-sm transition">
                             Créer
                         </button>
@@ -72,6 +76,7 @@
                                     <tr class="border-b border-slate-100 text-slate-500 text-left">
                                         <th class="pb-3 font-medium">ID</th>
                                         <th class="pb-3 font-medium">Email</th>
+                                        <th class="pb-3 font-medium">Notifications</th>
                                         <th class="pb-3 font-medium"></th>
                                     </tr>
                                 </thead>
@@ -80,6 +85,13 @@
                                         <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
                                             <td class="py-4">#{{ $a->id }}</td>
                                             <td class="py-4">{{ $a->email }}</td>
+                                            <td class="py-4">
+                                                @if ($a->receive_notification)
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">Activé</span>
+                                                @else
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-50 text-slate-600 border border-slate-200">Désactivé</span>
+                                                @endif
+                                            </td>
                                             <td class="py-4 text-right">
                                                 <form method="POST" action="{{ route('admin.admins.destroy') }}" class="inline" onsubmit="return confirm('Supprimer cet administrateur ?')">
                                                     @csrf
