@@ -12,7 +12,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: PHP application
-FROM dunglas/frankenphp:1.5-php8.3-alpine
+FROM dunglas/frankenphp:1.5-php8.4-alpine
 
 # Install system dependencies
 RUN apk add --no-cache curl
