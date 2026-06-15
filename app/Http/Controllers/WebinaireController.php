@@ -69,7 +69,6 @@ class WebinaireController extends Controller
             if (empty($nom)) $errors[] = 'Le nom est obligatoire.';
             if (empty($prenom)) $errors[] = 'Le prénom est obligatoire.';
             if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'L\'adresse email est invalide.';
-            if (!empty($email) && !$this->hasMxRecord($email)) $errors[] = 'Le domaine de l\'adresse email est invalide.';
             if (empty($whatsapp)) $errors[] = 'Le numéro WhatsApp est obligatoire.';
             if (empty($secteur)) $errors[] = 'Le secteur d\'activité est obligatoire.';
             if (empty($profil)) $errors[] = 'Le profil professionnel est obligatoire.';
