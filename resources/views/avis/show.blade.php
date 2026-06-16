@@ -22,7 +22,7 @@
                         <h2 class="text-2xl font-bold text-slate-800">Session introuvable</h2>
                         <p class="text-slate-500 mt-2">Le lien que vous avez suivi n'est pas valide ou la session est fermée.</p>
                     </div>
-                @elseif ($success ?? false)
+                @elseif (session('success'))
                     <div class="text-center">
                         <div class="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -39,15 +39,21 @@
                         <p class="text-slate-500 mt-2">Partagez votre retour d'expérience sur cette session.</p>
                     </div>
 
-                    @if (!empty($errors))
+                    @if ($errors->any())
                         <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
-                            @foreach ($errors as $e)
+                            @foreach ($errors->all() as $e)
                                 {{ $e }}<br>
                             @endforeach
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('avis.show') }}" id="wizardForm" class="space-y-8">
+                    @if (session('error'))
+                        <div class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('avis.store') }}" id="wizardForm" class="space-y-8">
                         @csrf
                         <input type="hidden" name="session_id" value="{{ $session->id }}">
 
@@ -56,33 +62,33 @@
                             <div class="grid md:grid-cols-2 gap-5">
                                 <div>
                                     <label class="text-base text-slate-800 font-medium">Votre nom *</label>
-                                    <input type="text" name="nom" required
+                                    <input type="text" name="nom" 
                                         class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
-                                        value="{{ old('nom', $old['nom'] ?? '') }}">
+                                        value="{{ old('nom') }}">
                                 </div>
                                 <div>
                                     <label class="text-base text-slate-800 font-medium">Votre (ou ves) prénom(s) *</label>
-                                    <input type="text" name="prenom" required
+                                    <input type="text" name="prenom" 
                                         class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
-                                        value="{{ old('prenom', $old['prenom'] ?? '') }}">
+                                        value="{{ old('prenom') }}">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="text-base text-slate-800 font-medium">Adresse email *</label>
-                                <input type="email" name="email" required
+                                <input type="email" name="email" 
                                     class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
-                                    value="{{ old('email', $old['email'] ?? '') }}">
+                                    value="{{ old('email') }}">
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="text-base text-slate-800 font-medium">Pays *</label>
-                                    <select name="pays" id="paysSelect" required
+                                    <select name="pays" id="paysSelect" 
                                         class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition">
-                                        <option value="" disabled {{ old('pays', $old['pays'] ?? '') ? '' : 'selected' }}>Choisissez votre pays</option>
+                                        <option value="" disabled {{ old('pays') ? '' : 'selected' }}>Choisissez votre pays</option>
                                         @foreach ($pays as $p)
-                                            <option value="{{ $p['nom'] }}" data-indicatif="{{ $p['indicatif'] }}" {{ (old('pays', $old['pays'] ?? '') === $p['nom']) ? 'selected' : '' }}>
+                                            <option value="{{ $p['nom'] }}" data-indicatif="{{ $p['indicatif'] }}" {{ old('pays') === $p['nom'] ? 'selected' : '' }}>
                                                 {{ $p['nom'] }} ({{ $p['indicatif'] }})
                                             </option>
                                         @endforeach
@@ -92,8 +98,8 @@
                                     <label class="text-base text-slate-800 font-medium">Numero WhatsApp *</label>
                                     <div class="flex items-center mt-2">
                                         <div class="h-12.5 bg-gray-100 px-2 border border-black/10 border-r-0 flex items-center justify-center rounded-l-xl whatsapp_prefix"> +237 </div>
-                                        <input type="hidden" name="whatsapp" required value="{{ old('whatsapp', $old['whatsapp'] ?? '') }}" />
-                                        <input type="tel" name="whatsapp_suffix" required
+                                        <input type="hidden" name="whatsapp"  value="{{ old('whatsapp') }}" />
+                                        <input type="tel" name="whatsapp_suffix" 
                                             placeholder=""
                                             class="w-full pl-2 pr-4 py-3 rounded-xl border-l-0 rounded-l-none bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition">
                                     </div>
@@ -107,7 +113,7 @@
                             <div class="grid grid-cols-2 gap-3">
                                 @foreach ($secteurs as $label)
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="secteur" value="{{ $label }}" class="hidden peer" {{ $loop->first ? 'required' : '' }} {{ (old('secteur', $old['secteur'] ?? '') === $label) ? 'checked' : '' }}>
+                                        <input type="radio" name="secteur" value="{{ $label }}" class="hidden peer" {{ old('secteur') === $label ? 'checked' : '' }}>
                                         <div class="flex items-center justify-center p-4 rounded-xl border border-black/10 bg-white text-center text-sm hover:shadow-md peer-checked:border-primary-500 peer-checked:bg-primary-50 transition">
                                             {{ $label }}
                                         </div>
@@ -122,7 +128,7 @@
                             <div class="grid grid-cols-2 gap-3">
                                 @foreach ($profils as $label)
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="profil" value="{{ $label }}" class="hidden peer" {{ $loop->first ? 'required' : '' }} {{ (old('profil', $old['profil'] ?? '') === $label) ? 'checked' : '' }}>
+                                        <input type="radio" name="profil" value="{{ $label }}" class="hidden peer" {{ old('profil') === $label ? 'checked' : '' }}>
                                         <div class="h-[100px] md:h-auto flex items-center justify-center p-4 rounded-xl border border-black/10 bg-white text-center text-sm hover:shadow-md peer-checked:border-secondary-500 peer-checked:bg-secondary-50 transition">
                                             {{ $label }}
                                         </div>
@@ -137,7 +143,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                                 @foreach ($niveaux as $label)
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="niveau" value="{{ $label }}" class="hidden peer" {{ $loop->first ? 'required' : '' }} {{ (old('niveau', $old['niveau'] ?? '') === $label) ? 'checked' : '' }}>
+                                        <input type="radio" name="niveau" value="{{ $label }}" class="hidden peer" {{ old('niveau') === $label ? 'checked' : '' }}>
                                         <div class="p-4 rounded-xl border border-black/10 bg-white text-center text-sm hover:shadow-md peer-checked:border-primary-500 peer-checked:bg-primary-50 transition">
                                             {{ $label }}
                                         </div>
@@ -152,7 +158,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 @foreach ($accompagnements as $label)
                                     <label class="cursor-pointer">
-                                        <input type="radio" name="accompagnement" value="{{ $label }}" class="hidden peer" {{ $loop->first ? 'required' : '' }} {{ (old('accompagnement', $old['accompagnement'] ?? '') === $label) ? 'checked' : '' }}>
+                                        <input type="radio" name="accompagnement" value="{{ $label }}" class="hidden peer" {{ old('accompagnement') === $label ? 'checked' : '' }}>
                                         <div class="p-4 rounded-xl border border-black/10 bg-white text-center text-sm hover:shadow-md peer-checked:border-primary-500 peer-checked:bg-primary-50 transition">
                                             {{ $label }}
                                         </div>
@@ -169,7 +175,7 @@
                                 <label class="block text-sm text-slate-500 mb-3">Note <span class="text-red-500">*</span></label>
                                 <div class="flex flex-row-reverse justify-center gap-2">
                                     @for ($i = 5; $i >= 1; $i--)
-                                        <input type="radio" id="star{{ $i }}" name="note" value="{{ $i }}" {{ $i === 5 ? 'required' : '' }} {{ (int)(old('note', $old['note'] ?? 0)) === $i ? 'checked' : '' }} class="hidden peer">
+                                        <input type="radio" id="star{{ $i }}" name="note" value="{{ $i }}" {{ (int)(old('note') ?? 0) === $i ? 'checked' : '' }} class="hidden peer">
                                         <label for="star{{ $i }}" class="text-4xl text-slate-200 cursor-pointer hover:text-yellow-400 peer-checked:text-yellow-400 transition-colors">&#9733;</label>
                                     @endfor
                                 </div>
@@ -178,7 +184,7 @@
                             <div>
                                 <label class="block text-sm text-slate-500 mb-2">Commentaire</label>
                                 <textarea name="commentaire" rows="3" placeholder="Décrivez votre expérience..."
-                                    class="w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition resize-none">{{ old('commentaire', $old['commentaire'] ?? '') }}</textarea>
+                                    class="w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition resize-none">{{ old('commentaire') }}</textarea>
                             </div>
                         </div>
 
@@ -231,7 +237,7 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        @if (!empty($errors))
+        @if ($errors->any())
             document.getElementById('wizardForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
         @endif
 

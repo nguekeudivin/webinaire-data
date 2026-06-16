@@ -48,11 +48,11 @@ class AdminAvisController extends Controller
 
     private function exportAvis($avisList)
     {
-        $headers = ['ID', 'Nom', 'Prénom', 'Email', 'WhatsApp', 'Session', 'Secteur', 'Profil', 'Niveau', 'Note', 'Commentaire', 'Accompagnement', 'Date avis'];
+        $headers = ['ID', 'Nom', 'Prénom', 'Email', 'WhatsApp', 'Pays', 'Session', 'Secteur', 'Profil', 'Niveau', 'Note', 'Commentaire', 'Accompagnement', 'Date avis'];
         $data = [];
         foreach ($avisList as $a) {
             $data[] = [
-                $a->id, $a->nom, $a->prenom, $a->email, $a->whatsapp,
+                $a->id, $a->nom, $a->prenom, $a->email, $a->whatsapp, $a->pays,
                 $a->session->titre ?? '', $a->secteur, $a->profil, $a->niveau,
                 $a->note, $a->commentaire, $a->accompagnement, $a->date_avis,
             ];

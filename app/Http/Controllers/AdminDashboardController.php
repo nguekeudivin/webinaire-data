@@ -48,11 +48,11 @@ class AdminDashboardController extends Controller
 
     private function exportProspects($prospects)
     {
-        $headers = ['ID', 'Nom', 'Prénom', 'Email', 'WhatsApp', 'Secteur', 'Profil', 'Niveau', 'Préférence', 'Consentement', 'Date inscription'];
+        $headers = ['ID', 'Nom', 'Prénom', 'Email', 'WhatsApp', 'Pays', 'Secteur', 'Profil', 'Niveau', 'Préférence', 'Consentement', 'Date inscription'];
         $data = [];
         foreach ($prospects as $p) {
             $data[] = [
-                $p->id, $p->nom, $p->prenom, $p->email, $p->whatsapp,
+                $p->id, $p->nom, $p->prenom, $p->email, $p->whatsapp, $p->pays,
                 $p->secteur, $p->profil, $p->niveau, $p->preference,
                 $p->consentement ? 'Oui' : 'Non', $p->date_inscription,
             ];

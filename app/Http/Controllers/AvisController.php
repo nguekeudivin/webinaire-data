@@ -52,84 +52,51 @@ class AvisController extends Controller
             'niveaux' => $this->niveaux,
             'accompagnements' => $this->accompagnements,
             'pays' => Pays::liste(),
-            'errors' => [],
-            'old' => [],
         ]);
     }
 
     public function store(Request $request)
     {
         $sessionId = (int) $request->input('session_id', 0);
-        $session = WebinaireSession::where('id', $sessionId)
-            ->where('statut', 'ouverte')
-            ->first();
-
-        if (!$session) {
-            return redirect()->route('avis.show');
-        }
-
-        $errors = [];
-        $success = false;
 
         $ipKey = 'avis:' . $sessionId . ':' . $request->ip();
         if (RateLimiter::tooManyAttempts($ipKey, 2)) {
-            $errors[] = 'Trop de soumissions. Veuillez patienter 1 minute.';
-        } else {
-            RateLimiter::hit($ipKey, 60);
-
-            $nom = trim($request->input('nom', ''));
-            $prenom = trim($request->input('prenom', ''));
-            $email = trim($request->input('email', ''));
-            $whatsapp = trim($request->input('whatsapp', ''));
-            $pays = $request->input('pays', '');
-            $secteur = $request->input('secteur', '');
-            $profil = $request->input('profil', '');
-            $niveau = $request->input('niveau', '');
-            $accompagnement = $request->input('accompagnement');
-            $note = (int) $request->input('note', 0);
-            $commentaire = trim($request->input('commentaire', ''));
-
-            if (empty($nom)) $errors[] = 'Votre nom est obligatoire.';
-            if (empty($prenom)) $errors[] = 'Votre prénom est obligatoire.';
-            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Adresse email invalide.';
-            if (empty($whatsapp)) $errors[] = 'Le numéro WhatsApp est obligatoire.';
-            if (empty($pays)) $errors[] = 'Le pays est obligatoire.';
-            if (empty($secteur)) $errors[] = 'Le secteur d\'activité est obligatoire.';
-            if (empty($profil)) $errors[] = 'Le profil professionnel est obligatoire.';
-            if (empty($niveau)) $errors[] = 'Le niveau en analyse de données est obligatoire.';
-            if (!$accompagnement) $errors[] = 'Vous devez selectionner une option d\'accompagnement.';
-            if ($note < 1 || $note > 5) $errors[] = 'Veuillez attribuer une note entre 1 et 5.';
-
-            if (empty($errors)) {
-                Avis::create([
-                    'session_id' => $sessionId,
-                    'nom' => $nom,
-                    'prenom' => $prenom,
-                    'email' => $email,
-                    'whatsapp' => $whatsapp,
-                    'pays' => $pays,
-                    'secteur' => $secteur,
-                    'profil' => $profil,
-                    'niveau' => $niveau,
-                    'accompagnement' => $accompagnement,
-                    'note' => $note,
-                    'commentaire' => $commentaire,
-                ]);
-                $success = true;
-            }
+            return back()->with('error', 'Trop de soumissions. Veuillez patienter 1 minute.');
         }
+        RateLimiter::hit($ipKey, 60);
 
-        return view('avis.show', [
-            'session' => $session,
-            'sessionId' => $sessionId,
-            'errors' => $errors,
-            'success' => $success,
-            'old' => $request->except(['session_id']),
-            'secteurs' => $this->secteurs,
-            'profils' => $this->profils,
-            'niveaux' => $this->niveaux,
-            'accompagnements' => $this->accompagnements,
-            'pays' => Pays::liste(),
+        $validated = $request->validate([
+            'session_id' => 'required|integer|exists:webinaire_sessions,id,statut,ouverte',
+            'nom' => 'required|string|max:255',
+            'prenom' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'whatsapp' => 'required|string|max:255',
+            'pays' => 'required|string',
+            'secteur' => 'required|string',
+            'profil' => 'required|string',
+            'niveau' => 'required|string',
+            'accompagnement' => 'required|string',
+            'note' => 'required|integer|between:1,5',
+            'commentaire' => 'nullable|string|max:2000',
+        ], [
+            'session_id.required' => 'La session est obligatoire.',
+            'nom.required' => 'Votre nom est obligatoire.',
+            'prenom.required' => 'Votre prénom est obligatoire.',
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email' => 'L\'adresse email n\'est pas valide.',
+            'whatsapp.required' => 'Le numéro WhatsApp est obligatoire.',
+            'pays.required' => 'Le pays est obligatoire.',
+            'secteur.required' => 'Le secteur d\'activité est obligatoire.',
+            'profil.required' => 'Le profil professionnel est obligatoire.',
+            'niveau.required' => 'Le niveau en analyse de données est obligatoire.',
+            'accompagnement.required' => 'Vous devez sélectionner une option d\'accompagnement.',
+            'note.required' => 'Veuillez attribuer une note.',
+            'note.between' => 'La note doit être comprise entre 1 et 5.',
         ]);
+
+        Avis::create($validated);
+
+        return redirect()->route('avis.show', ['session' => $sessionId])
+            ->with('success', 'Votre avis a bien été enregistré.');
     }
 }
