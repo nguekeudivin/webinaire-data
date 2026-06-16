@@ -46,13 +46,13 @@
                 <div class="grid md:grid-cols-2 gap-5">
                     <div>
                         <label class="text-base text-slate-800 font-medium">Votre nom *</label>
-                        <input type="text" name="nom" required
+                        <input type="text" name="nom" 
                             class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
                             value="{{ old('nom', $old['nom'] ?? '') }}">
                     </div>
                     <div>
                         <label class="text-base text-slate-800 font-medium">Votre (ou ves) prénom(s) *</label>
-                        <input type="text" name="prenom" required
+                        <input type="text" name="prenom" 
                             class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
                             value="{{ old('prenom', $old['prenom'] ?? '') }}">
                     </div>
@@ -60,7 +60,7 @@
 
                 <div>
                     <label class="text-base text-slate-800 font-medium">Adresse email *</label>
-                    <input type="email" name="email" required
+                    <input name="email" 
                         class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
                         value="{{ old('email', $old['email'] ?? '') }}">
                 </div>
@@ -68,7 +68,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="text-base text-slate-800 font-medium">Pays *</label>
-                        <select name="pays" id="paysSelect" required
+                        <select name="pays" id="paysSelect" 
                             class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition">
                             <option value="" disabled {{ old('pays', $old['pays'] ?? '') ? '' : 'selected' }}>Choisissez votre pays</option>
                             @foreach ($pays as $p)
@@ -82,8 +82,8 @@
                         <label class="text-base text-slate-800 font-medium">Numero WhatsApp *</label>
                         <div class="flex items-center mt-2"> 
                             <div class="h-12.5 bg-gray-100 px-2 border border-black/10 border-r-0 flex items-center justify-center rounded-l-xl whatsapp_prefix" > +237 </div>
-                            <input type="hidden" name="whatsapp" required value="{{ old('whatsapp', $old['whatsapp'] ?? '') }}" />
-                            <input type="tel" name="whatsapp_suffix" required
+                            <input type="hidden" name="whatsapp"  value="{{ old('whatsapp', $old['whatsapp'] ?? '') }}" />
+                            <input type="tel" name="whatsapp_suffix" 
                                 placeholder=""
                                 class="w-full pl-2 pr-4 py-3 rounded-xl border-l-0 rounded-l-none bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition">
                         </div>

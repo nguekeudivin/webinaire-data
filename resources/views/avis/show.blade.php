@@ -76,7 +76,7 @@
 
                             <div>
                                 <label class="text-base text-slate-800 font-medium">Adresse email *</label>
-                                <input type="email" name="email" 
+                                <input  name="email" 
                                     class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
                                     value="{{ old('email') }}">
                             </div>

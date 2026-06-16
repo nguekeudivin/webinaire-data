@@ -33,16 +33,11 @@ class AvisController extends Controller
 
     private array $accompagnements = ['Oui bien sûr', 'Non pas pour le moment'];
 
-    public function show(Request $request)
+    public function show(int $sessionId)
     {
-        $sessionId = (int) $request->query('session', 0);
-        $session = null;
-
-        if ($sessionId > 0) {
-            $session = WebinaireSession::where('id', $sessionId)
-                ->where('statut', 'ouverte')
-                ->first();
-        }
+        $session = WebinaireSession::where('id', $sessionId)
+            ->where('statut', 'ouverte')
+            ->first();
 
         return view('avis.show', [
             'session' => $session,
@@ -96,7 +91,7 @@ class AvisController extends Controller
 
         Avis::create($validated);
 
-        return redirect()->route('avis.show', ['session' => $sessionId])
+        return redirect()->route('avis.show', ['sessionId' => $sessionId])
             ->with('success', 'Votre avis a bien été enregistré.');
     }
 }

@@ -73,7 +73,7 @@
                         </thead>
                         <tbody class="text-slate-700">
                             @foreach ($sessions as $s)
-                                @php $link = route('avis.show', ['session' => $s->id]); @endphp
+                                @php $link = route('avis.show', ['sessionId' => $s->id]); @endphp
                                 <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
                                     <td class="py-4">#{{ $s->id }}</td>
                                     <td class="py-4 font-medium">{{ $s->titre }}</td>

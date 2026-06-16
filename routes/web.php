@@ -15,7 +15,7 @@ Route::get('/', [WebinaireController::class, 'index'])->name('home');
 Route::post('/', [WebinaireController::class, 'store']);
 Route::get('/merci', [WebinaireController::class, 'merci'])->name('merci');
 
-Route::get('/avis', [AvisController::class, 'show'])->name('avis.show');
+Route::get('/avis/{sessionId}', [AvisController::class, 'show'])->name('avis.show');
 Route::post('/avis', [AvisController::class, 'store'])->name('avis.store');
 
 // Admin auth (public)
