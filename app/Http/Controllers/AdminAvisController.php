@@ -40,6 +40,12 @@ class AdminAvisController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $avis = Avis::with('session')->findOrFail($id);
+        return view('admin.avis_detail', compact('avis'));
+    }
+
     private function exportAvis($avisList)
     {
         $headers = ['ID', 'Nom', 'Prénom', 'Email', 'WhatsApp', 'Session', 'Secteur', 'Profil', 'Niveau', 'Note', 'Commentaire', 'Accompagnement', 'Date avis'];

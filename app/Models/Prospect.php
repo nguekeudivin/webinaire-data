@@ -15,6 +15,7 @@ class Prospect extends Model
         'prenom',
         'email',
         'whatsapp',
+        'pays',
         'secteur',
         'profil',
         'niveau',

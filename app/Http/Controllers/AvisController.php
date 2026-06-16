@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Avis;
 use App\Models\WebinaireSession;
+use App\Support\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -50,6 +51,7 @@ class AvisController extends Controller
             'profils' => $this->profils,
             'niveaux' => $this->niveaux,
             'accompagnements' => $this->accompagnements,
+            'pays' => Pays::liste(),
             'errors' => [],
             'old' => [],
         ]);
@@ -79,6 +81,7 @@ class AvisController extends Controller
             $prenom = trim($request->input('prenom', ''));
             $email = trim($request->input('email', ''));
             $whatsapp = trim($request->input('whatsapp', ''));
+            $pays = $request->input('pays', '');
             $secteur = $request->input('secteur', '');
             $profil = $request->input('profil', '');
             $niveau = $request->input('niveau', '');
@@ -90,6 +93,7 @@ class AvisController extends Controller
             if (empty($prenom)) $errors[] = 'Votre prénom est obligatoire.';
             if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Adresse email invalide.';
             if (empty($whatsapp)) $errors[] = 'Le numéro WhatsApp est obligatoire.';
+            if (empty($pays)) $errors[] = 'Le pays est obligatoire.';
             if (empty($secteur)) $errors[] = 'Le secteur d\'activité est obligatoire.';
             if (empty($profil)) $errors[] = 'Le profil professionnel est obligatoire.';
             if (empty($niveau)) $errors[] = 'Le niveau en analyse de données est obligatoire.';
@@ -103,6 +107,7 @@ class AvisController extends Controller
                     'prenom' => $prenom,
                     'email' => $email,
                     'whatsapp' => $whatsapp,
+                    'pays' => $pays,
                     'secteur' => $secteur,
                     'profil' => $profil,
                     'niveau' => $niveau,
@@ -123,7 +128,8 @@ class AvisController extends Controller
             'secteurs' => $this->secteurs,
             'profils' => $this->profils,
             'niveaux' => $this->niveaux,
-            'accompagnements' => $this->accompagnements
+            'accompagnements' => $this->accompagnements,
+            'pays' => Pays::liste(),
         ]);
     }
 }

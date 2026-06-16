@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\RegistrationMail;
 use App\Models\Prospect;
 use App\Models\User;
+use App\Support\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -43,6 +44,7 @@ class WebinaireController extends Controller
             'profils' => $this->profils,
             'niveaux' => $this->niveaux,
             'preferences' => $this->preferences,
+            'pays' => Pays::liste(),
         ]);
     }
 
@@ -57,8 +59,9 @@ class WebinaireController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'prenom' => 'required|string|max:255',
-            'email' => 'required|email|unique:prospects,email',
+            'email' => 'required|email',
             'whatsapp' => 'required|string|max:255',
+            'pays' => 'required|string',
             'secteur' => ['required', 'string'],
             'profil' => ['required', 'string'],
             'niveau' => ['required', 'string'],

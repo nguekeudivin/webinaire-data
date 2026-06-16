@@ -65,13 +65,33 @@
                         value="{{ old('email', $old['email'] ?? '') }}">
                 </div>
 
-                <div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <div> 
+
+                         <label class="text-base text-slate-800 font-medium">Pays *</label>
+                    <select name="pays" id="paysSelect" required
+                        class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition">
+                        <option value="" disabled {{ old('pays', $old['pays'] ?? '') ? '' : 'selected' }}>Choisissez votre pays</option>
+                        @foreach ($pays as $p)
+                            <option value="{{ $p['nom'] }}" data-indicatif="{{ $p['indicatif'] }}" {{ (old('pays', $old['pays'] ?? '') === $p['nom']) ? 'selected' : '' }}>
+                                {{ $p['nom'] }} ({{ $p['indicatif'] }})
+                            </option>
+                        @endforeach
+                    </select>
+                    </div>
+                   
+
+                      <div>
                     <label class="text-base text-slate-800 font-medium">Numero WhatsApp *</label>
                     <input type="tel" name="whatsapp" required
-                        placeholder="+2250102030405"
+                        placeholder=""
                         class="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-black/10 focus:border-primary-500 outline-none focus:ring-2 focus:ring-primary-200 transition"
                         value="{{ old('whatsapp', $old['whatsapp'] ?? '') }}">
                 </div>
+                </div>
+
+              
             </div>
 
             <!-- STEP 2 -->
@@ -186,6 +206,34 @@
                 document.getElementById('submitLoader').classList.add('flex');
             }
         });
+
+        const paysSelect = document.getElementById('paysSelect');
+        const whatsappInput = document.querySelector('input[name="whatsapp"]');
+
+        function updateWhatsappPlaceholder() {
+            if (paysSelect && paysSelect.value) {
+                const option = paysSelect.options[paysSelect.selectedIndex];
+                const indicatif = option.getAttribute('data-indicatif');
+                if (indicatif) {
+                    whatsappInput.placeholder = indicatif + '0102030405';
+                }
+            }
+        }
+
+        if (paysSelect) {
+            paysSelect.addEventListener('change', function() {
+                const option = this.options[this.selectedIndex];
+                const indicatif = option.getAttribute('data-indicatif');
+                if (indicatif) {
+                    whatsappInput.placeholder = indicatif + '0102030405';
+                    const current = whatsappInput.value.trim();
+                    if (!current || current === '+') {
+                        whatsappInput.value = indicatif;
+                    }
+                }
+            });
+            updateWhatsappPlaceholder();
+        }
     });
 </script>
 @endpush

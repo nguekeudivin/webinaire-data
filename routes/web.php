@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/sessions/delete', [AdminSessionController::class, 'destroy'])->name('admin.sessions.destroy');
 
     Route::get('/admin/avis', [AdminAvisController::class, 'index'])->name('admin.avis');
+    Route::get('/admin/avis/{id}', [AdminAvisController::class, 'show'])->name('admin.avis.detail');
 
     Route::get('/admin/admins', [AdminManagementController::class, 'index'])->name('admin.admins');
     Route::post('/admin/admins', [AdminManagementController::class, 'store']);

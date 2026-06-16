@@ -55,6 +55,7 @@
                                 <th class="pb-3 font-medium">Nom</th>
                                 <th class="pb-3 font-medium">Email</th>
                                 <th class="pb-3 font-medium">WhatsApp</th>
+                                <th class="pb-3 font-medium">Pays</th>
                                 <th class="pb-3 font-medium">Secteur</th>
                                 <th class="pb-3 font-medium">Profil</th>
                                 <th class="pb-3 font-medium">Date</th>
@@ -68,6 +69,7 @@
                                     <td class="py-4 font-medium">{{ $p->prenom }} {{ $p->nom }}</td>
                                     <td class="py-4">{{ $p->email }}</td>
                                     <td class="py-4">{{ $p->whatsapp }}</td>
+                                    <td class="py-4">{{ $p->pays ?: '-' }}</td>
                                     <td class="py-4"><span class="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200">{{ $p->secteur }}</span></td>
                                     <td class="py-4">{{ $p->profil }}</td>
                                     <td class="py-4">{{ \Carbon\Carbon::parse($p->date_inscription)->format('d/m/Y H:i') }}</td>

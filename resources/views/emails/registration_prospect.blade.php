@@ -18,6 +18,7 @@
 <tr><td style='padding:8px 0;color:#64748b;'>Nom</td><td style='padding:8px 0;font-weight:600;text-align:right;'>{{ $prospect->prenom }} {{ $prospect->nom }}</td></tr>
 <tr><td style='padding:8px 0;color:#64748b;'>Email</td><td style='padding:8px 0;font-weight:600;text-align:right;'>{{ $prospect->email }}</td></tr>
 <tr><td style='padding:8px 0;color:#64748b;'>WhatsApp</td><td style='padding:8px 0;font-weight:600;text-align:right;'>{{ $prospect->whatsapp }}</td></tr>
+<tr><td style='padding:8px 0;color:#64748b;'>Pays</td><td style='padding:8px 0;font-weight:600;text-align:right;'>{{ $prospect->pays }}</td></tr>
 <tr><td style='padding:8px 0;color:#64748b;'>Secteur</td><td style='padding:8px 0;font-weight:600;text-align:right;'>{{ $prospect->secteur }}</td></tr>
 <tr><td style='padding:8px 0;color:#64748b;'>Profil</td><td style='padding:8px 0;font-weight:600;text-align:right;'>{{ $prospect->profil }}</td></tr>
 <tr><td style='padding:8px 0;color:#64748b;'>Niveau</td><td style='padding:8px 0;font-weight:600;text-align:right;'>{{ $prospect->niveau }}</td></tr>

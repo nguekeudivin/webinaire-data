@@ -17,6 +17,7 @@ class Avis extends Model
         'prenom',
         'email',
         'whatsapp',
+        'pays',
         'secteur',
         'profil',
         'niveau',
