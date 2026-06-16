@@ -22,6 +22,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
     })->create();
 
 $app->booted(function () {
+    $appUrl = config('app.url');
+    if ($appUrl) {
+        URL::forceRootUrl($appUrl);
+    }
     if (app()->environment('production')) {
         URL::forceScheme('https');
     }

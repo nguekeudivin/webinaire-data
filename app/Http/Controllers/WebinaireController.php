@@ -9,7 +9,6 @@ use App\Support\Pays;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Validation\Rule;
 
 class WebinaireController extends Controller
 {
@@ -67,6 +66,18 @@ class WebinaireController extends Controller
             'niveau' => ['required', 'string'],
             'preference' => ['required', 'string'],
             'consentement' => 'required',
+        ], [
+            'nom.required' => 'Votre nom est obligatoire.',
+            'prenom.required' => 'Votre prénom est obligatoire.',
+            'email.required' => 'L\'adresse email est obligatoire.',
+            'email.email' => 'L\'adresse email n\'est pas valide.',
+            'whatsapp.required' => 'Le numéro WhatsApp est obligatoire.',
+            'pays.required' => 'Le pays est obligatoire.',
+            'secteur.required' => 'Le secteur d\'activité est obligatoire.',
+            'profil.required' => 'Le profil professionnel est obligatoire.',
+            'niveau.required' => 'Le niveau en analyse de données est obligatoire.',
+            'preference.required' => 'La préférence de participation est obligatoire.',
+            'consentement.required' => 'Vous devez accepter les conditions.',
         ]);
 
         $prospect = Prospect::create($validated);
