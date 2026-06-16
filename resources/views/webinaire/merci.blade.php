@@ -69,14 +69,15 @@ body {
 
         <!-- CTA -->
         <div class="mt-12 flex justify-center">
-            <a href="#" class="group relative inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-primary-600 overflow-hidden font-medium text-white">
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Master+of+Data+-+De+la+donn%C3%A9e+%C3%A0+la+d%C3%A9cision&dates=20260620T100000Z/20260620T120000Z&details=Merci+pour+votre+inscription.+Nous+vous+enverrons+les+informations+de+connexion+ainsi+qu%27un+rappel+avant+le+d%C3%A9but+du+webinaire.&location=En+ligne" target="_blank" rel="noopener noreferrer" class="group relative inline-flex items-center justify-center px-8 py-4 rounded-2xl bg-primary-600 overflow-hidden font-medium text-white">
                 <span class="relative">Ajouter à mon agenda</span>
             </a>
         </div>
 
         <!-- Footer -->
         <p class="mt-8 text-center text-sm text-slate-500">
-            Un email de confirmation a été envoyé à votre adresse.
+            Un email de confirmation a été envoyé à votre adresse.<br>
+            <span class="">Pensez à vérifier vos spams si vous ne le trouvez pas.</span>
         </p>
     </section>
 </main>
