@@ -53,7 +53,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="https://masterclass-data.com/avis" id="wizardForm" class="space-y-8">
+                    <form method="POST" action="https://master-of-data.com/avis" id="wizardForm" class="space-y-8">
                         @csrf
                         <input type="hidden" name="session_id" value="{{ $session->id }}">
 
