@@ -51,11 +51,9 @@
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="border-b border-slate-100 text-slate-500 text-left">
-                                <th class="pb-3 font-medium">ID</th>
-                                <th class="pb-3 font-medium">Nom</th>
-                                <th class="pb-3 font-medium">Email</th>
-                                <th class="pb-3 font-medium">WhatsApp</th>
-                                <th class="pb-3 font-medium">Pays</th>
+                                <th class="pb-3 font-medium w-16">ID</th>
+                                <th class="pb-3 font-medium">Prospect</th>
+                                <th class="pb-3 font-medium">Contact</th>
                                 <th class="pb-3 font-medium">Secteur</th>
                                 <th class="pb-3 font-medium">Profil</th>
                                 <th class="pb-3 font-medium">Date</th>
@@ -65,15 +63,28 @@
                         <tbody class="text-slate-700">
                             @foreach ($prospects as $p)
                                 <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
-                                    <td class="py-4">#{{ $p->id }}</td>
-                                    <td class="py-4 font-medium">{{ $p->prenom }} {{ $p->nom }}</td>
-                                    <td class="py-4">{{ $p->email }}</td>
-                                    <td class="py-4">{{ $p->whatsapp }}</td>
-                                    <td class="py-4">{{ $p->pays ?: '-' }}</td>
-                                    <td class="py-4"><span class="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200">{{ $p->secteur }}</span></td>
-                                    <td class="py-4">{{ $p->profil }}</td>
-                                    <td class="py-4">{{ \Carbon\Carbon::parse($p->date_inscription)->format('d/m/Y H:i') }}</td>
-                                    <td class="py-4"><a href="{{ route('admin.prospect', $p->id) }}" class="text-primary-600 hover:text-primary-700 font-medium transition">Voir</a></td>
+                                    <td class="py-4 align-top">#{{ $p->id }}</td>
+                                    <td class="py-4 align-top">
+                                        <div class="font-medium text-slate-800">{{ $p->prenom }} {{ $p->nom }}</div>
+                                        <div class="text-slate-400 mt-0.5">{{ $p->email }}</div>
+                                    </td>
+                                    <td class="py-4 align-top">
+                                        <div class="text-slate-700">{{ $p->whatsapp }}</div>
+                                        <div class="text-slate-400 mt-0.5">{{ $p->pays ?: '-' }}</div>
+                                    </td>
+                                    <td class="py-4 align-top"><span class="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200">{{ $p->secteur }}</span></td>
+                                    <td class="py-4 align-top">{{ $p->profil }}</td>
+                                    <td class="py-4 align-top text-xs text-slate-400 whitespace-nowrap">{{ \Carbon\Carbon::parse($p->date_inscription)->format('d/m/Y H:i') }}</td>
+                                    <td class="py-4 align-top">
+                                        <div class="flex items-center gap-3">
+                                            <a href="{{ route('admin.prospect', $p->id) }}" class="text-primary-600 hover:text-primary-700 font-medium transition">Voir</a>
+                                            <form method="POST" action="{{ route('admin.prospects.destroy') }}" class="inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce prospect ? Cette action est irréversible.');">
+                                                @csrf
+                                                <input type="hidden" name="delete_id" value="{{ $p->id }}">
+                                                <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium transition">Supprimer</button>
+                                            </form>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

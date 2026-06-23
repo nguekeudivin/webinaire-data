@@ -54,15 +54,11 @@
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="border-b border-slate-100 text-slate-500 text-left">
-                                <th class="pb-3 font-medium">Nom</th>
-                                <th class="pb-3 font-medium">Prénom</th>
-                                <th class="pb-3 font-medium">Email</th>
-                                <th class="pb-3 font-medium">WhatsApp</th>
-                                <th class="pb-3 font-medium">Pays</th>
+                                <th class="pb-3 font-medium">Prospect</th>
+                                <th class="pb-3 font-medium">Contact</th>
                                 <th class="pb-3 font-medium">Session</th>
-                                <th class="pb-3 font-medium">Secteur</th>   
+                                <th class="pb-3 font-medium">Secteur</th>
                                 <th class="pb-3 font-medium">Note</th>
-                                <th class="pb-3 font-medium">Accompagnement</th>
                                 <th class="pb-3 font-medium">Date</th>
                                 <th class="pb-3 font-medium"></th>
                             </tr>
@@ -70,21 +66,21 @@
                         <tbody class="text-slate-700">
                             @foreach ($avisList as $a)
                                 <tr class="border-b border-slate-50 hover:bg-slate-50/50 transition">
-                                    <td class="py-4 font-medium">{{ $a->nom }}</td>
-                                    <td class="py-4">{{ $a->prenom ?: '-' }}</td>
-                                    <td class="py-4 text-xs text-slate-500">{{ $a->email }}</td>
-                                    <td class="py-4 text-xs">{{ $a->whatsapp ?: '-' }}</td>
-                                    <td class="py-4">{{ $a->pays ?: '-' }}</td>
-                                    <td class="py-4">{{ $a->session->titre ?? '-' }}</td>
-                                    <td class="py-4"><span class="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200">{{ $a->secteur ?: '-' }}</span></td>
-                       
-                                    <td class="py-4 text-yellow-400 text-lg">
+                                    <td class="py-4 align-top">
+                                        <div class="font-medium text-slate-800">{{ $a->prenom }} {{ $a->nom }}</div>
+                                        <div class="text-slate-400 text-xs mt-0.5">{{ $a->email }}</div>
+                                    </td>
+                                    <td class="py-4 align-top">
+                                        <div class="text-slate-700">{{ $a->whatsapp ?: '-' }}</div>
+                                        <div class="text-slate-400 text-xs mt-0.5">{{ $a->pays ?: '-' }}</div>
+                                    </td>
+                                    <td class="py-4 align-top">{{ $a->session->titre ?? '-' }}</td>
+                                    <td class="py-4 align-top"><span class="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-primary-50 text-primary-700 border border-primary-200">{{ $a->secteur ?: '-' }}</span></td>
+                                    <td class="py-4 align-top text-yellow-400 text-lg leading-none">
                                         {!! str_repeat('&#9733;', $a->note) . str_repeat('&#9734;', 5 - $a->note) !!}
                                     </td>
-                                
-                                    <td class="py-4">{{ $a->accompagnement ?: '-' }}</td>
-                                    <td class="py-4 text-slate-500">{{ \Carbon\Carbon::parse($a->date_avis)->format('d/m/Y H:i') }}</td>
-                                    <td class="py-4"><a href="{{ route('admin.avis.detail', $a->id) }}" class="text-primary-600 hover:text-primary-700 font-medium transition">Voir</a></td>
+                                    <td class="py-4 align-top text-xs text-slate-400 whitespace-nowrap">{{ \Carbon\Carbon::parse($a->date_avis)->format('d/m/Y H:i') }}</td>
+                                    <td class="py-4 align-top"><a href="{{ route('admin.avis.detail', $a->id) }}" class="text-primary-600 hover:text-primary-700 font-medium transition">Voir</a></td>
                                 </tr>
                             @endforeach
                         </tbody>

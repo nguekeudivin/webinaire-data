@@ -46,6 +46,17 @@ class AdminDashboardController extends Controller
         return view('admin.prospect', ['prospect' => $prospect]);
     }
 
+    public function destroy(Request $request)
+    {
+        $id = (int) $request->input('delete_id', 0);
+
+        if ($id > 0) {
+            Prospect::destroy($id);
+        }
+
+        return redirect()->route('admin.dashboard')->with('status', 'Prospect supprimé.');
+    }
+
     private function exportProspects($prospects)
     {
         $headers = ['ID', 'Nom', 'Prénom', 'Email', 'WhatsApp', 'Pays', 'Secteur', 'Profil', 'Niveau', 'Préférence', 'Consentement', 'Date inscription'];

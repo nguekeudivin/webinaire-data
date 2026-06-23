@@ -32,6 +32,7 @@ Route::post('/admin/reset-password', [AdminAuthController::class, 'resetPassword
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/prospect/{id}', [AdminDashboardController::class, 'prospect'])->name('admin.prospect');
+    Route::post('/admin/prospects/delete', [AdminDashboardController::class, 'destroy'])->name('admin.prospects.destroy');
 
     Route::get('/admin/sessions', [AdminSessionController::class, 'index'])->name('admin.sessions');
     Route::post('/admin/sessions', [AdminSessionController::class, 'store']);
